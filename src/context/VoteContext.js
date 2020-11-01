@@ -6,15 +6,27 @@ function useVote() {
     if (!context) {
         throw new Error('Use vote must be used within a Vote Provider')
     }
-    return context
+
+    const [votes, setVotes] = context
+    
+    const onVoteClick = (candidate) => {
+        setVotes({ ...votes, [candidate]: votes[candidate] + 1 })
+    }
+    return {
+        context,
+        votes,
+        setVotes,
+        onVoteClick,
+    }
 }
 
 function VoteProvider(props) {
     const [votes, setVotes] = React.useState({
         Biden: 0,
-        Trump: 0
+        Trump: 0,
     })
-    return <VoteContext.Provider value={votes} {...props}/>
+    const value = React.useMemo(() => [votes, setVotes], [votes])
+    return <VoteContext.Provider value={value} {...props}/>
 }
 
 export {useVote, VoteProvider}
