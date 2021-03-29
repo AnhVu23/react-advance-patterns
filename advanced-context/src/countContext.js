@@ -1,5 +1,9 @@
 import * as React from 'react'
 const CountContext = React.createContext()
+function CountDisplay() {
+    const {count} = useCount()
+    return <div>{count}</div>
+  }
 function countReducer(state, action) {
   switch (action.type) {
     case 'increment': {
@@ -20,4 +24,13 @@ function CountProvider({children}) {
   const value = {state, dispatch}
   return <CountContext.Provider value={value}>{children}</CountContext.Provider>
 }
-export {CountProvider}
+
+function useCount() {
+    const context = React.useContext(CountContext)
+    if (context === undefined) {
+        throw new Error('useCount must be used within a CountProvider')
+    }
+    return context
+}
+
+export {CountProvider, CountDisplay}

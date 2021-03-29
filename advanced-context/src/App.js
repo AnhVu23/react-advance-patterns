@@ -1,9 +1,9 @@
-import {CountProvider, CountDisplay, Counter} from './countContext'
+import {CountProvider, CountDisplay} from './countContext'
+
 function App() {
   return (
     <CountProvider>
       <CountDisplay />
-      <Counter />
     </CountProvider>
   );
 }
